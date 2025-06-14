@@ -73,7 +73,7 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        print(in1,' ', out)
+        self.registers[in1.capitalize()] = out
 
     def and_op(self, in1, in2, out):
         """
