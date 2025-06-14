@@ -26,6 +26,14 @@ class Compiler:
 
         self.instructions = []  # Reset or initialize instruction list
 
+        expected_argument_counts = {
+            'load': 2,
+            'and' : 3,
+            'add' : 3,
+            'xor' : 3,
+            'store':2
+        }
+
         # Split text into lines and process each
         for line in text.strip().splitlines():
             parts = line.strip().split()
@@ -34,8 +42,16 @@ class Compiler:
             command = parts[0].lower()
             args = parts[1:]
 
-            # Store as tuple (command, [args])
-            self.instructions.append((command, args))
+            # Validate command and argument count
+        if command in expected_argument_counts:
+            expected = expected_argument_counts[command]
+            
+            # Handle both single number and range of valid arg counts
+            if isinstance(expected, int):
+                # Exact number required
+                if len(args) == expected:
+                    self.instructions.append((command, args))
+                # else: silently ignore - wrong number of args
         
         self.runInstructions()
 
@@ -57,7 +73,7 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[]
+        print(in1,' ', out)
 
     def and_op(self, in1, in2, out):
         """

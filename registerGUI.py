@@ -40,4 +40,4 @@ class RegisterGUI:
         self.update_table()
 
     def update_table(self):
-        self.tree.item("row0", values=self.compiler.registers)
+        self.tree.item("row0", values=self.compiler.getRegisters())
