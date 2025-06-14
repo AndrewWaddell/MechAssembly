@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from compiler import Compiler
 
 class RegisterGUI:
     def __init__(self) -> None:
         self.root = tk.Tk()
         self.root.title("Register GUI")
+
+        self.compiler = Compiler()
 
         # Layout frames
         self.left_frame = tk.Frame(self.root)
@@ -34,7 +37,7 @@ class RegisterGUI:
 
     def on_text_change(self, event):
         user_input = self.text_input.get("1.0", "end-1c").strip()
-        self.update_table(user_input)
+        self.compiler.interpretText(user_input)
 
     def update_table(self, input_text: str):
         # Dummy function: fill the table with the first 16 characters (8 per row)
