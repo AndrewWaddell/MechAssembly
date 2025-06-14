@@ -73,19 +73,20 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[in1.capitalize()] = out
+        self.registers[in1.upper()] = out.upper()
 
     def and_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[out.capitalize()] = 'G' # g for gear
+        output = 'and-'+in1+'-'+in2
+        self.registers[out.upper()] = output.upper() # g for gear
 
     def add_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[out.capitalize()] = 'G'
+        self.registers[out.upper()] = 'G'
 
     def xor_op(self, in1, in2, out):
         """
@@ -97,4 +98,4 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[in1.capitalize()] = ''
+        self.registers[in1.upper()] = ''
