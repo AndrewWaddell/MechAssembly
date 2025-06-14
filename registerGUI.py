@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from compiler import Compiler
+from tkinter import Canvas
 
 class RegisterGUI:
     def __init__(self) -> None:
@@ -15,6 +16,20 @@ class RegisterGUI:
 
         self.right_frame = tk.Frame(self.root)
         self.right_frame.pack(side="right", fill="both", expand=True)
+        
+        # New drawing frame
+        self.drawing_frame = tk.Frame(self.root)
+        self.drawing_frame.pack(side="right", fill="both", expand=True)
+
+        # Canvas for drawing
+        self.canvas = Canvas(self.drawing_frame, bg="white", width=600, height=400)
+        self.canvas.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        # Drawing parameters
+        self.cell_width = 60
+        self.cell_height = 40
+        self.start_x = 20
+        self.start_y = 20
 
         # Text input on the left
         self.text_input = tk.Text(self.left_frame, width=30, height=20)
@@ -43,6 +58,7 @@ class RegisterGUI:
         user_input = self.text_input.get("1.0", "end-1c").strip()
         self.compiler.interpretText(user_input)
         self.update_table()
+        self.update_drawing()
 
     def update_table(self):
         registers = self.compiler.getRegisters()
@@ -50,3 +66,65 @@ class RegisterGUI:
         for i, value in enumerate(registers):
             if i < 8:  # Safety check
                 self.tree.item(f"row{i}", values=[f"R{i+1}", value])
+    
+    def calculate_grid_dimensions(self):
+        """Calculate the maximum columns needed based on data"""
+        max_col = 0
+        
+        # Check instructions for max column
+        for row, col, text in self.compiler.gridInstructions:
+            max_col = max(max_col, col)
+        
+        # Check axis for max column (start_col + span - 1)
+        for start_col, span, text in self.compiler.axis:
+            max_col = max(max_col, start_col + span - 1)
+        
+        return max_col
+    
+    def draw_cell(self, row, col, text=""):
+        """Draw a single cell with optional text"""
+        x1 = self.start_x + (col - 1) * self.cell_width
+        y1 = self.start_y + (row - 1) * self.cell_height
+        x2 = x1 + self.cell_width
+        y2 = y1 + self.cell_height
+        
+        # Draw rectangle
+        self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", width=2)
+        
+        # Draw text if provided
+        if text:
+            center_x = x1 + self.cell_width // 2
+            center_y = y1 + self.cell_height // 2
+            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 10))
+    
+    def draw_axis_cell(self, start_col, span, text=""):
+        """Draw an axis cell that spans multiple columns"""
+        row = 1  # Axis is always on row 1
+        x1 = self.start_x + (start_col - 1) * self.cell_width
+        y1 = self.start_y + (row - 1) * self.cell_height
+        x2 = x1 + span * self.cell_width
+        y2 = y1 + self.cell_height
+        
+        # Draw rectangle
+        self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", width=2)
+        
+        # Draw text if provided
+        if text:
+            center_x = x1 + (span * self.cell_width) // 2
+            center_y = y1 + self.cell_height // 2
+            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 10))
+    
+    def update_drawing(self):
+        """Update the drawing display with current data"""
+        # Clear the canvas
+        self.canvas.delete("all")
+        
+        # Draw axis cells (row 1)
+        for start_col, span, text in self.compiler.axis:
+            self.draw_axis_cell(start_col, span, text)
+        
+        # Draw instruction cells
+        for row, col, text in self.compiler.gridInstructions:
+            self.draw_cell(row, col, text)
+    
+    

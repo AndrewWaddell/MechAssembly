@@ -10,6 +10,9 @@ class Compiler:
         'R7':'',
         'R8':'',
         }
+        self.gridInstructions = []
+        self.axis = []
+        self.counter = 0 # what column are we up to in the drawing
 
     def getRegisters(self):
         """
@@ -74,13 +77,20 @@ class Compiler:
         Manages the registers in the same way the AND operator would.
         """
         self.registers[out.upper()] = in1.upper()
+        self.gridInstructions.append((int(out[1])-1,self.counter,in1.upper()))
+        self.counter += 1
 
     def and_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
         """
         output = 'and-'+in1+'-'+in2
-        self.registers[out.upper()] = output.upper() # g for gear
+        self.registers[out.upper()] = output.upper()
+        self.gridInstructions.append((int(in1[1])-1,self.counter,''))
+        self.gridInstructions.append((int(in2[1])-1,self.counter,''))
+        self.gridInstructions.append((int(out[1])-1,self.counter,''))
+        self.axis.append((self.counter,self.counter+1,''))
+        
 
     def add_op(self, in1, in2, out):
         """
