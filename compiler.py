@@ -73,7 +73,7 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[in1.upper()] = out.upper()
+        self.registers[out.upper()] = in1.upper()
 
     def and_op(self, in1, in2, out):
         """
@@ -86,16 +86,18 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[out.upper()] = 'G'
+        output = 'add-'+in1+'-'+in2
+        self.registers[out.upper()] = output
 
     def xor_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
         """
-        pass
+        output = 'xor-'+in1+'-'+in2
+        self.registers[out.upper()] = output
 
     def store_op(self, in1, out):
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[in1.upper()] = ''
+        self.registers[out.upper()] = ''
