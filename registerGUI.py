@@ -37,6 +37,7 @@ class RegisterGUI:
     def on_text_change(self, event):
         user_input = self.text_input.get("1.0", "end-1c").strip()
         self.compiler.interpretText(user_input)
+        self.update_table()
 
-    def update_table(self, input_text: str):
+    def update_table(self):
         self.tree.item("row0", values=self.compiler.registers)
