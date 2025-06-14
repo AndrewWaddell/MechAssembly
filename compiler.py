@@ -1,9 +1,11 @@
 class Compiler:
     def __init__(self) -> None:
-        pass
-    def interpretText(text):
+        self.registers = ['','','','','','','','']
+
+    def interpretText(self,text):
         """
         Where text is initially input. Takes the text and starts to do some
         initial processing to decode it.
         """
-        pass
+        self.registers[0] = 'A1'
+        self.registers[1] = 'A2'
