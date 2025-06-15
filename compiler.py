@@ -100,7 +100,9 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        self.registers[out.upper()] = ''
+        self.registers[out.upper()] = in1.upper()
+        self.gridInstructions.append((int(out[1]),self.counter,in1.upper()))
+        self.counter += 1
 
     def and_op(self, in1, in2, out):
         """
