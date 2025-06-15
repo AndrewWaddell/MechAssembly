@@ -99,7 +99,7 @@ class RegisterGUI:
     
     def draw_axis_cell(self, start_col, span, text=""):
         """Draw an axis cell that spans multiple columns"""
-        row = 1  # Axis is always on row 1
+        row = 0  # Axis is always on row 1
         x1 = self.start_x + (start_col - 1) * self.cell_width
         y1 = self.start_y + (row - 1) * self.cell_height
         x2 = x1 + span * self.cell_width
