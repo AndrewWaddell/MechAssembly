@@ -28,8 +28,8 @@ class RegisterGUI:
         # Drawing parameters
         self.cell_width = 60
         self.cell_height = 40
-        self.start_x = 20
-        self.start_y = 20
+        self.start_x = 70
+        self.start_y = 50
 
         # Text input on the left
         self.text_input = tk.Text(self.left_frame, width=30, height=20)
