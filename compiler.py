@@ -96,6 +96,12 @@ class Compiler:
         self.gridInstructions.append((int(out[1]),self.counter,in1.upper()))
         self.counter += 1
 
+    def store_op(self, in1, out):
+        """
+        Manages the registers in the same way the AND operator would.
+        """
+        self.registers[out.upper()] = ''
+
     def and_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
@@ -103,17 +109,6 @@ class Compiler:
         output = 'and-'+in1+'-'+in2
         self.registers[out.upper()] = output.upper()
         self.add_axis_box(in1,in2,out,'')
-        
-    def add_axis_box(self,in1,in2,out,text):
-        """
-        Draws a box for the components on the axis of the group
-        """
-        self.axis.append((self.counter,self.counter+1,text))
-        self.gridInstructions.append((int(in1[1]),self.counter,''))
-        self.counter += 1
-        self.gridInstructions.append((int(in2[1]),self.counter,''))
-        self.counter += 1
-        self.gridInstructions.append((int(out[1]),self.counter,''))
         
     def add_op(self, in1, in2, out):
         """
@@ -131,9 +126,14 @@ class Compiler:
         output = 'xor-'+in1+'-'+in2
         self.registers[out.upper()] = output
         self.add_axis_box(in1,in2,out,'x')
-
-    def store_op(self, in1, out):
+    
+    def add_axis_box(self,in1,in2,out,text):
         """
-        Manages the registers in the same way the AND operator would.
+        Draws a box for the components on the axis of the group
         """
-        self.registers[out.upper()] = ''
+        self.axis.append((self.counter,self.counter+1,text))
+        self.gridInstructions.append((int(in1[1]),self.counter,''))
+        self.counter += 1
+        self.gridInstructions.append((int(in2[1]),self.counter,''))
+        self.counter += 1
+        self.gridInstructions.append((int(out[1]),self.counter,''))
