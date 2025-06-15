@@ -123,7 +123,7 @@ class RegisterGUI:
         for start_col, span, text in self.compiler.axis:
             self.draw_axis_cell(start_col, span, text)
         
-        # Draw instruction cells
+        # Draw rail cells
         for row, col, text in self.compiler.gridInstructions:
             self.draw_cell(row, col, text)
     

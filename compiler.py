@@ -1,3 +1,4 @@
+
 class Compiler:
     def __init__(self) -> None:
         self.registers = {
@@ -55,9 +56,25 @@ class Compiler:
             if isinstance(expected, int):
                 # Exact number required
                 if len(args) == expected:
-                    self.instructions.append((command, args))
-                # else: silently ignore - wrong number of args
+                    if self.checkArgs(args,command):
+                        self.instructions.append((command, args))
+                    # else: silently ignore - wrong number of args
         self.runInstructions()
+
+    def checkArgs(self,args, cmd):
+        """
+        quickly check the args are in the format R1 (len 2)
+        if not then return false
+        """
+        # special case for load and store since bussing can have any name
+        if cmd == "load" or cmd == "store":
+            if len(args[1]) != 2: # out arg
+                return False
+        else:
+            for arg in args:
+                if len(arg) != 2:
+                    return False
+        return True
 
     def runInstructions(self):
         for cmd, args in self.instructions:
@@ -76,23 +93,21 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        if len(out) != 2:
-            return # ignore if not in the format of "R1"
         self.registers[out.upper()] = in1.upper()
         self.gridInstructions.append((int(out[1]),self.counter,in1.upper()))
         self.counter += 1
-        self.instructions.pop(0)
+        # self.instructions.pop(0)
 
     def and_op(self, in1, in2, out):
         """
         Manages the registers in the same way the AND operator would.
         """
-        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
-            return # ignore if not in the format of "R1"
         output = 'and-'+in1+'-'+in2
         self.registers[out.upper()] = output.upper()
         self.gridInstructions.append((int(in1[1]),self.counter,''))
+        self.counter += 1
         self.gridInstructions.append((int(in2[1]),self.counter,''))
+        self.counter += 1
         self.gridInstructions.append((int(out[1]),self.counter,''))
         self.axis.append((self.counter,self.counter+1,''))
         
@@ -101,8 +116,6 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
-            return # ignore if not in the format of "R1"
         output = 'add-'+in1+'-'+in2
         self.registers[out.upper()] = output
 
@@ -110,8 +123,6 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
-            return # ignore if not in the format of "R1"
         output = 'xor-'+in1+'-'+in2
         self.registers[out.upper()] = output
 
@@ -119,6 +130,4 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
-        if len(out) != 2 or len(in1) != 2:
-            return # ignore if not in the format of "R1"
         self.registers[out.upper()] = ''
