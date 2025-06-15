@@ -11,8 +11,6 @@ class Compiler:
         'R7':'',
         'R8':'',
         }
-        self.axis = []
-        self.counter = 0 # what column are we up to in the drawing
 
     def getRegisters(self):
         """
@@ -31,6 +29,7 @@ class Compiler:
         self.instructions = []  # Reset or initialize instruction list
         self.gridInstructions = [] # this is instruction list for actual drawing onto grid
         self.counter = 0 # reset counter
+        self.axis = [] # draw the parts that sit on the axis of the group
 
         expected_argument_counts = {
             'load': 2,
