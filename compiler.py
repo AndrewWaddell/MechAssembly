@@ -49,16 +49,16 @@ class Compiler:
             args = parts[1:]
 
             # Validate command and argument count
-        if command in expected_argument_counts:
-            expected = expected_argument_counts[command]
-            
-            # Handle both single number and range of valid arg counts
-            if isinstance(expected, int):
-                # Exact number required
-                if len(args) == expected:
-                    if self.checkArgs(args,command):
-                        self.instructions.append((command, args))
-                    # else: silently ignore - wrong number of args
+            if command in expected_argument_counts:
+                expected = expected_argument_counts[command]
+                
+                # Handle both single number and range of valid arg counts
+                if isinstance(expected, int):
+                    # Exact number required
+                    if len(args) == expected:
+                        if self.checkArgs(args,command):
+                            self.instructions.append((command, args))
+                        # else: silently ignore - wrong number of args
         self.runInstructions()
 
     def checkArgs(self,args, cmd):
@@ -96,7 +96,6 @@ class Compiler:
         self.registers[out.upper()] = in1.upper()
         self.gridInstructions.append((int(out[1]),self.counter,in1.upper()))
         self.counter += 1
-        # self.instructions.pop(0)
 
     def and_op(self, in1, in2, out):
         """
@@ -110,7 +109,6 @@ class Compiler:
         self.counter += 1
         self.gridInstructions.append((int(out[1]),self.counter,''))
         self.axis.append((self.counter,self.counter+1,''))
-        
 
     def add_op(self, in1, in2, out):
         """
