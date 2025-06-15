@@ -95,7 +95,7 @@ class RegisterGUI:
         if text:
             center_x = x1 + self.cell_width // 2
             center_y = y1 + self.cell_height // 2
-            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 10))
+            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 12, "bold"), fill="black")
     
     def draw_axis_cell(self, start_col, span, text=""):
         """Draw an axis cell that spans multiple columns"""
@@ -112,7 +112,7 @@ class RegisterGUI:
         if text:
             center_x = x1 + (span * self.cell_width) // 2
             center_y = y1 + self.cell_height // 2
-            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 10))
+            self.canvas.create_text(center_x, center_y, text=text, font=("Arial", 12, "bold"), fill="black")
     
     def update_drawing(self):
         """Update the drawing display with current data"""
