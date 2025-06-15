@@ -57,7 +57,6 @@ class Compiler:
                 if len(args) == expected:
                     self.instructions.append((command, args))
                 # else: silently ignore - wrong number of args
-        
         self.runInstructions()
 
     def runInstructions(self):
@@ -88,6 +87,8 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
+        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
+            return # ignore if not in the format of "R1"
         output = 'and-'+in1+'-'+in2
         self.registers[out.upper()] = output.upper()
         self.gridInstructions.append((int(in1[1]),self.counter,''))
@@ -100,6 +101,8 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
+        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
+            return # ignore if not in the format of "R1"
         output = 'add-'+in1+'-'+in2
         self.registers[out.upper()] = output
 
@@ -107,6 +110,8 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
+        if len(out) != 2 or len(in1) != 2 or len(in2) != 2:
+            return # ignore if not in the format of "R1"
         output = 'xor-'+in1+'-'+in2
         self.registers[out.upper()] = output
 
@@ -114,4 +119,6 @@ class Compiler:
         """
         Manages the registers in the same way the AND operator would.
         """
+        if len(out) != 2 or len(in1) != 2:
+            return # ignore if not in the format of "R1"
         self.registers[out.upper()] = ''
