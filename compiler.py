@@ -132,7 +132,7 @@ class Compiler:
         """
         Draws a box for the components on the axis of the group
         """
-        self.axis.append((self.counter, self.counter + 1, text))
+        self.axis.append((self.counter, 3, text))
         self.gridInstructions.append((int(in1[1]), self.counter, ""))
         self.counter += 1
         self.gridInstructions.append((int(in2[1]), self.counter, ""))
