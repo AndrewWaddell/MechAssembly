@@ -122,26 +122,27 @@ class RegisterGUI:
                 center_x, center_y, text=text, font=("Arial", 12, "bold"), fill="black"
             )
 
-    def update_drawing(self):
-        """Update the drawing display with current data"""
-        # Clear the canvas
-        self.canvas.delete("all")
 
-        # Calculate max column to resize canvas
-        max_col = self.calculate_grid_dimensions()
-        max_row = 1 + max(
-            (row for row, _, _ in self.compiler.gridInstructions), default=0
-        )
+def update_drawing(self):
+    """Update the drawing display with current data"""
+    self.canvas.delete("all")
 
-        # Resize canvas dynamically
-        new_width = self.start_x + max_col * self.cell_width + 20  # 20px margin
-        new_height = self.start_y + max_row * self.cell_height + 20
-        self.canvas.config(width=new_width, height=new_height)
+    # Fixed canvas size
+    canvas_width = 600
+    canvas_height = 400
 
-        # Draw axis cells (row 1)
-        for start_col, span, text in self.compiler.axis:
-            self.draw_axis_cell(start_col, span, text)
+    # Get max number of columns and rows
+    max_col = max(self.calculate_grid_dimensions(), 1)
+    max_row = max((row for row, _, _ in self.compiler.gridInstructions), default=1)
 
-        # Draw rail cells
-        for row, col, text in self.compiler.gridInstructions:
-            self.draw_cell(row, col, text)
+    # Calculate dynamic cell size based on how much space we have
+    self.cell_width = (canvas_width - 2 * self.start_x) / max_col
+    self.cell_height = (canvas_height - 2 * self.start_y) / max_row
+
+    # Draw axis cells (row 0)
+    for start_col, span, text in self.compiler.axis:
+        self.draw_axis_cell(start_col, span, text)
+
+    # Draw rail cells
+    for row, col, text in self.compiler.gridInstructions:
+        self.draw_cell(row, col, text)
