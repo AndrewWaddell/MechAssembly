@@ -31,6 +31,8 @@ class RegisterGUI:
         self.cell_height = 40
         self.start_x = 70
         self.start_y = 50
+        self.canvas_width = 600
+        self.canvas_height = 400
 
         # Text input on the left
         self.text_input = tk.Text(self.left_frame, width=30, height=20)
@@ -123,10 +125,35 @@ class RegisterGUI:
             )
 
     def update_drawing(self):
-        """Update the drawing display with current data"""
         self.canvas.delete("all")
 
-        # Draw axis cells (row 0)
+        # Fixed canvas size
+        canvas_width = self.canvas_width
+        canvas_height = self.canvas_height
+
+        # Get max number of columns and rows to fit
+        max_col = max(self.calculate_grid_dimensions(), 1)
+        max_row = max((row for row, _, _ in self.compiler.gridInstructions), default=1)
+
+        # Available space after margins
+        padding_x = 2 * self.start_x
+        padding_y = 2 * self.start_y
+        available_width = canvas_width - padding_x
+        available_height = canvas_height - padding_y
+
+        # Compute the max uniform cell size that fits both dimensions
+        cell_width_candidate = available_width / max_col
+        cell_height_candidate = available_height / max_row
+
+        # Choose the smaller of the two to preserve aspect ratio
+        self.cell_width = self.cell_height = min(
+            cell_width_candidate, cell_height_candidate
+        )
+
+        # Optionally enforce a minimum or maximum cell size
+        self.cell_width = self.cell_height = max(10, self.cell_width)
+
+        # Draw axis
         for start_col, span, text in self.compiler.axis:
             self.draw_axis_cell(start_col, span, text)
 
