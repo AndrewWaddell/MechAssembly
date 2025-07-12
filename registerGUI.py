@@ -127,6 +127,17 @@ class RegisterGUI:
         # Clear the canvas
         self.canvas.delete("all")
 
+        # Calculate max column to resize canvas
+        max_col = self.calculate_grid_dimensions()
+        max_row = 1 + max(
+            (row for row, _, _ in self.compiler.gridInstructions), default=0
+        )
+
+        # Resize canvas dynamically
+        new_width = self.start_x + max_col * self.cell_width + 20  # 20px margin
+        new_height = self.start_y + max_row * self.cell_height + 20
+        self.canvas.config(width=new_width, height=new_height)
+
         # Draw axis cells (row 1)
         for start_col, span, text in self.compiler.axis:
             self.draw_axis_cell(start_col, span, text)
